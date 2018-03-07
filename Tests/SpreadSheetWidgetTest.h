@@ -14,6 +14,7 @@ class SpreadSheetWidgetTest : public TestSuite
    private slots:
       void testCopyAndPaste();
       void testCutAndPaste();
+      void testDelete();
    private:
       QString getSelectionString(const SpreadSheetWidget& spreadSheet);
 };

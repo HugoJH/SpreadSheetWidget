@@ -95,6 +95,31 @@ void SpreadSheetWidgetTest::testCutAndPaste()
    QCOMPARE(selectionStringTarget, expectedOutputTarget);
 }
 
+void SpreadSheetWidgetTest::testDelete()
+{
+   SpreadSheetWidget spreadSheet;
+
+   spreadSheet.setFixedWidth(600);
+   spreadSheet.setFixedHeight(480);
+
+   spreadSheet.setColumnCount(50);
+
+   spreadSheet.setRowCount(50);
+
+   spreadSheet.setItem(0, 0, new QTableWidgetItem("015"));
+   spreadSheet.setItem(9, 2, new QTableWidgetItem("016"));
+   spreadSheet.setItem(10, 4, new QTableWidgetItem("017"));
+
+   QTableWidgetSelectionRange rangeBefore(0, 0, 10, 4);
+   spreadSheet.setRangeSelected(rangeBefore, true);
+   spreadSheet.show();
+   QTest::keyClick(&spreadSheet, Qt::Key_Delete, Qt::ControlModifier);
+
+   QString selectionString = getSelectionString(spreadSheet);
+   QString expectedOutput = "\t\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t";
+   QCOMPARE(selectionString, expectedOutput);
+}
+
 QString SpreadSheetWidgetTest::getSelectionString(const SpreadSheetWidget& spreadSheet)
 {
    QAbstractItemModel* model = spreadSheet.model();
