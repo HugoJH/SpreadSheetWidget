@@ -9,6 +9,19 @@ class SpreadSheetWidget : public QTableWidget
 
    public:
       SpreadSheetWidget(QWidget *parent = 0);
+
+   protected:
+      void keyPressEvent(QKeyEvent* event);
+   private slots:
+      void copyCells();
+      void pasteCells();
+
+   private:
+      int currentPasteRow();
+      int currentPasteCol();
+
+      QList<QStringList> clipboard;
+
 };
 
 #endif
