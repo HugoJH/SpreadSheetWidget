@@ -7,10 +7,18 @@ SpreadSheetWidget::SpreadSheetWidget(QWidget *parent) :
 
 void SpreadSheetWidget::keyPressEvent(QKeyEvent* event)
 {
-   if(event->matches(QKeySequence::Copy))
+   if (event->matches(QKeySequence::Copy))
+   {
       copyCells();
-   else if(event->matches(QKeySequence::Paste))
+   }
+   else if (event->matches(QKeySequence::Cut))
+   {
+      cutCells();
+   }
+   else if (event->matches(QKeySequence::Paste))
+   {
       pasteCells();
+   }
    else
       QTableWidget::keyPressEvent(event);
 }
@@ -64,6 +72,21 @@ void SpreadSheetWidget::pasteCells()
       }
       temp.clear();
       ++j;
+   }
+}
+
+void SpreadSheetWidget::cutCells()
+{
+   copyCells();
+   deleteCells();
+}
+
+void SpreadSheetWidget::deleteCells()
+{
+   QTableWidgetItem* item;
+   foreach (item, selectedItems())
+   {
+      item->setText("");
    }
 }
 

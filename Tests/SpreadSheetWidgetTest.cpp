@@ -90,7 +90,7 @@ void SpreadSheetWidgetTest::testCutAndPaste()
    QString selectionStringTarget = getSelectionString(spreadSheet);
 
    QString expectedOutputTarget = "015\t\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t016\t\t\t\n\t\t\t017\t";
-   QString expectedOutputOrigin = "";
+   QString expectedOutputOrigin = "\t\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t";
    QCOMPARE(selectionStringOrigin, expectedOutputOrigin);
    QCOMPARE(selectionStringTarget, expectedOutputTarget);
 }

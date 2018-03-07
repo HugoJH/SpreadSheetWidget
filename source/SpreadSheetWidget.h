@@ -15,7 +15,8 @@ class SpreadSheetWidget : public QTableWidget
    private slots:
       void copyCells();
       void pasteCells();
-
+      void cutCells();
+      void deleteCells();
    private:
       int currentPasteRow();
       int currentPasteCol();
