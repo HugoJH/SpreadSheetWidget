@@ -25,7 +25,7 @@ void SpreadSheetWidgetTest::testCopyAndPaste()
 
    QTableWidgetSelectionRange rangeBefore(0, 0, 10, 4);
    spreadSheet.setRangeSelected(rangeBefore, true);
-   spreadSheet.show();
+
    QTest::keyClick(&spreadSheet, Qt::Key_C, Qt::ControlModifier);
 
 
@@ -68,7 +68,7 @@ void SpreadSheetWidgetTest::testCutAndPaste()
 
    QTableWidgetSelectionRange rangeBefore(0, 0, 10, 4);
    spreadSheet.setRangeSelected(rangeBefore, true);
-   spreadSheet.show();
+
    QTest::keyClick(&spreadSheet, Qt::Key_X, Qt::ControlModifier);
 
 
@@ -110,10 +110,10 @@ void SpreadSheetWidgetTest::testDelete()
    spreadSheet.setItem(9, 2, new QTableWidgetItem("016"));
    spreadSheet.setItem(10, 4, new QTableWidgetItem("017"));
 
-   QTableWidgetSelectionRange rangeBefore(0, 0, 10, 4);
-   spreadSheet.setRangeSelected(rangeBefore, true);
-   spreadSheet.show();
-   QTest::keyClick(&spreadSheet, Qt::Key_Delete, Qt::ControlModifier);
+   QTableWidgetSelectionRange range(0, 0, 10, 4);
+   spreadSheet.setRangeSelected(range, true);
+
+   QTest::keySequence(&spreadSheet, QKeySequence::Delete);
 
    QString selectionString = getSelectionString(spreadSheet);
    QString expectedOutput = "\t\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t";

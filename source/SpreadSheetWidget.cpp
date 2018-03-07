@@ -19,8 +19,14 @@ void SpreadSheetWidget::keyPressEvent(QKeyEvent* event)
    {
       pasteCells();
    }
+   else if (event->matches(QKeySequence::Delete))
+   {
+      deleteCells();
+   }
    else
+   {
       QTableWidget::keyPressEvent(event);
+   }
 }
 
 void SpreadSheetWidget::copyCells()
