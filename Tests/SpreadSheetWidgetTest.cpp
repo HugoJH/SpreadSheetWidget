@@ -26,13 +26,13 @@ void SpreadSheetWidgetTest::testCopyAndPaste()
    QTableWidgetSelectionRange rangeBefore(0, 0, 10, 4);
    spreadSheet.setRangeSelected(rangeBefore, true);
 
-   QTest::keyClick(&spreadSheet, Qt::Key_C, Qt::ControlModifier);
+   QTest::keySequence(&spreadSheet, QKeySequence::Copy);
 
 
    spreadSheet.clearSelection();
    spreadSheet.setCurrentCell(11, 0);
 
-   QTest::keyClick(&spreadSheet, Qt::Key_V, Qt::ControlModifier);
+   QTest::keySequence(&spreadSheet, QKeySequence::Paste);
    spreadSheet.clearSelection();
 
    QTableWidgetSelectionRange rangeMid(0, 0, 10, 4);
@@ -44,9 +44,10 @@ void SpreadSheetWidgetTest::testCopyAndPaste()
 
    QTableWidgetSelectionRange rangeAfter(11, 0, 21, 4);
    spreadSheet.setRangeSelected(rangeAfter, true);
-   QString selectionStringTarget = getSelectionString(spreadSheet);
 
+   QString selectionStringTarget = getSelectionString(spreadSheet);
    QString expectedOutput = "015\t\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t016\t\t\t\n\t\t\t017\t";
+
    QCOMPARE(selectionStringOrigin, expectedOutput);
    QCOMPARE(selectionStringTarget, expectedOutput);
 }
@@ -69,13 +70,13 @@ void SpreadSheetWidgetTest::testCutAndPaste()
    QTableWidgetSelectionRange rangeBefore(0, 0, 10, 4);
    spreadSheet.setRangeSelected(rangeBefore, true);
 
-   QTest::keyClick(&spreadSheet, Qt::Key_X, Qt::ControlModifier);
+   QTest::keySequence(&spreadSheet, QKeySequence::Cut);
 
 
    spreadSheet.clearSelection();
    spreadSheet.setCurrentCell(11, 0);
 
-   QTest::keyClick(&spreadSheet, Qt::Key_V, Qt::ControlModifier);
+   QTest::keySequence(&spreadSheet, QKeySequence::Paste);
    spreadSheet.clearSelection();
 
    QTableWidgetSelectionRange rangeMid(0, 0, 10, 4);
@@ -87,10 +88,11 @@ void SpreadSheetWidgetTest::testCutAndPaste()
 
    QTableWidgetSelectionRange rangeAfter(11, 0, 21, 4);
    spreadSheet.setRangeSelected(rangeAfter, true);
-   QString selectionStringTarget = getSelectionString(spreadSheet);
 
+   QString selectionStringTarget = getSelectionString(spreadSheet);
    QString expectedOutputTarget = "015\t\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t016\t\t\t\n\t\t\t017\t";
    QString expectedOutputOrigin = "\t\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t";
+
    QCOMPARE(selectionStringOrigin, expectedOutputOrigin);
    QCOMPARE(selectionStringTarget, expectedOutputTarget);
 }
@@ -117,6 +119,7 @@ void SpreadSheetWidgetTest::testDelete()
 
    QString selectionString = getSelectionString(spreadSheet);
    QString expectedOutput = "\t\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t";
+
    QCOMPARE(selectionString, expectedOutput);
 }
 
@@ -127,22 +130,18 @@ QString SpreadSheetWidgetTest::getSelectionString(const SpreadSheetWidget& sprea
    QModelIndexList indexes = selection->selectedIndexes();
 
    QString selected_text;
-   // You need a pair of indexes to find the row changes
    QModelIndex previous = indexes.first();
-   //indexes.removeFirst();
+
    foreach(QModelIndex current, indexes)
    {
       QVariant data = model->data(current);
       QString text = data.toString();
-      // At this point `text` contains the text in one cell
       selected_text.append(text);
-      // If you are at the start of the row the row number of the previous index
-      // isn't the same.  Text is followed by a row separator, which is a newline.
+
       if (current.row() != previous.row())
       {
          selected_text.append('\n');
       }
-      // Otherwise it's the same row, so append a column separator, which is a tab.
       else
       {
          selected_text.append('\t');
