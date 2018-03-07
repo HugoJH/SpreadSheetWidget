@@ -51,6 +51,50 @@ void SpreadSheetWidgetTest::testCopyAndPaste()
    QCOMPARE(selectionStringTarget, expectedOutput);
 }
 
+void SpreadSheetWidgetTest::testCutAndPaste()
+{
+   SpreadSheetWidget spreadSheet;
+
+   spreadSheet.setFixedWidth(600);
+   spreadSheet.setFixedHeight(480);
+
+   spreadSheet.setColumnCount(50);
+
+   spreadSheet.setRowCount(50);
+
+   spreadSheet.setItem(0, 0, new QTableWidgetItem("015"));
+   spreadSheet.setItem(9, 2, new QTableWidgetItem("016"));
+   spreadSheet.setItem(10, 4, new QTableWidgetItem("017"));
+
+   QTableWidgetSelectionRange rangeBefore(0, 0, 10, 4);
+   spreadSheet.setRangeSelected(rangeBefore, true);
+   spreadSheet.show();
+   QTest::keyClick(&spreadSheet, Qt::Key_X, Qt::ControlModifier);
+
+
+   spreadSheet.clearSelection();
+   spreadSheet.setCurrentCell(11, 0);
+
+   QTest::keyClick(&spreadSheet, Qt::Key_V, Qt::ControlModifier);
+   spreadSheet.clearSelection();
+
+   QTableWidgetSelectionRange rangeMid(0, 0, 10, 4);
+   spreadSheet.setRangeSelected(rangeMid, true);
+
+   QString selectionStringOrigin = getSelectionString(spreadSheet);
+
+   spreadSheet.clearSelection();
+
+   QTableWidgetSelectionRange rangeAfter(11, 0, 21, 4);
+   spreadSheet.setRangeSelected(rangeAfter, true);
+   QString selectionStringTarget = getSelectionString(spreadSheet);
+
+   QString expectedOutputTarget = "015\t\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t016\t\t\t\n\t\t\t017\t";
+   QString expectedOutputOrigin = "";
+   QCOMPARE(selectionStringOrigin, expectedOutputOrigin);
+   QCOMPARE(selectionStringTarget, expectedOutputTarget);
+}
+
 QString SpreadSheetWidgetTest::getSelectionString(const SpreadSheetWidget& spreadSheet)
 {
    QAbstractItemModel* model = spreadSheet.model();

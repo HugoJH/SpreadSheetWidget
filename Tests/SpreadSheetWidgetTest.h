@@ -13,6 +13,7 @@ class SpreadSheetWidgetTest : public TestSuite
       using TestSuite::TestSuite;
    private slots:
       void testCopyAndPaste();
+      void testCutAndPaste();
    private:
       QString getSelectionString(const SpreadSheetWidget& spreadSheet);
 };
