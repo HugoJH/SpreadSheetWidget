@@ -30,7 +30,9 @@
 
 
 int main(int argc, char *argv[])
-{
+{  //Must declare QApplication to avoid crash: "QWidget: Must construct a QApplication before a QWidget"
+   QApplication a(argc, argv);
+
    // setup lambda
    int status = 0;
    auto runTest = [&status, argc, argv](QObject* obj)
@@ -44,4 +46,5 @@ int main(int argc, char *argv[])
    {
       runTest(*it);
    }
+   return 0;
 }

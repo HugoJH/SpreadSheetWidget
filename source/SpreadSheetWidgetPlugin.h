@@ -1,7 +1,7 @@
 #ifndef SPREADSHEETWIDGETPLUGIN_H
 #define SPREADSHEETWIDGETPLUGIN_H
 
-#include <QDesignerCustomWidgetInterface>
+#include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
 class SpreadSheetWidgetPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
